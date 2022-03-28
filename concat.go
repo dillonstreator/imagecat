@@ -18,6 +18,7 @@ type Concater struct {
 	mu sync.Mutex
 }
 
+//NewConcater creates a new concater
 func NewConcater(images ...image.Image) *Concater {
 	c := &Concater{}
 	c.Add(images...)
@@ -25,6 +26,7 @@ func NewConcater(images ...image.Image) *Concater {
 	return c
 }
 
+//Add adds images to the concater for later concatenation
 func (c *Concater) Add(images ...image.Image) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -48,6 +50,7 @@ func (c *Concater) Add(images ...image.Image) {
 	}
 }
 
+//Clear clears the images and any calculated max/total widths and heights
 func (c *Concater) Clear() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -59,6 +62,7 @@ func (c *Concater) Clear() {
 	c.totalWidth = 0
 }
 
+//Concat concatenates the added images with axis and alignment options
 func (c *Concater) Concat(opts ...opt) (*image.RGBA, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
