@@ -5,104 +5,62 @@ import (
 	"image"
 	"image/draw"
 	"math"
-	"sync"
 )
 
-type Concater struct {
-	images      []image.Image
-	maxWidth    int
-	maxHeight   int
-	totalWidth  int
-	totalHeight int
+func Concat(images []image.Image, options ...OptionFn) (*image.RGBA, error) {
+	config := newConfig(options...)
 
-	mu sync.Mutex
-}
-
-//NewConcater creates a new concater
-func NewConcater(images ...image.Image) *Concater {
-	c := &Concater{}
-	c.Add(images...)
-
-	return c
-}
-
-//Add adds images to the concater for later concatenation
-func (c *Concater) Add(images ...image.Image) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
+	totalHeight := 0
+	totalWidth := 0
+	maxHeight := 0
+	maxWidth := 0
 
 	for _, img := range images {
-		c.images = append(c.images, img)
-
 		height := img.Bounds().Dy()
 		width := img.Bounds().Dx()
 
-		c.totalHeight += height
-		c.totalWidth += width
+		totalHeight += height
+		totalWidth += width
 
-		if height > c.maxHeight {
-			c.maxHeight = height
+		if height > maxHeight {
+			maxHeight = height
 		}
 
-		if width > c.maxWidth {
-			c.maxWidth = width
+		if width > maxWidth {
+			maxWidth = width
 		}
-	}
-}
-
-//Clear clears the images and any calculated max/total widths and heights
-func (c *Concater) Clear() {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	c.images = []image.Image{}
-	c.maxHeight = 0
-	c.maxWidth = 0
-	c.totalHeight = 0
-	c.totalWidth = 0
-}
-
-//Concat concatenates the added images with axis and alignment options
-func (c *Concater) Concat(opts ...opt) (*image.RGBA, error) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	config := &concatOptions{
-		axis:      ConcatAxisX,
-		alignment: ConcatAlignmentNone,
-	}
-	for _, o := range opts {
-		o(config)
 	}
 
 	var img *image.RGBA
 
-	if config.axis == ConcatAxisX {
-		img = image.NewRGBA(image.Rect(0, 0, c.totalWidth, c.maxHeight))
-	} else if config.axis == ConcatAxisY {
-		img = image.NewRGBA(image.Rect(0, 0, c.maxWidth, c.totalHeight))
+	fmt.Println(config.axis)
+	if config.axis == AxisX {
+		img = image.NewRGBA(image.Rect(0, 0, totalWidth, maxHeight))
+	} else if config.axis == AxisY {
+		img = image.NewRGBA(image.Rect(0, 0, maxWidth, totalHeight))
 	} else {
-		return nil, fmt.Errorf("unkown axis %v", config.axis)
+		fmt.Println("here")
+		return nil, fmt.Errorf("unknown axis %v", config.axis)
 	}
 
 	xPos := 0
 	yPos := 0
 
-	for _, i := range c.images {
+	for _, i := range images {
 		height := i.Bounds().Dy()
 		width := i.Bounds().Dx()
 
-		if config.alignment == ConcatAlignmentCenter {
-			if config.axis == ConcatAxisX {
+		if config.alignment == AlignmentCenter {
+			if config.axis == AxisX {
 				// pad yPos
-				diff := float64(c.maxHeight - height)
+				diff := float64(maxHeight - height)
 				if diff > 0 {
 					padding := int(math.Floor(diff / 2))
 					yPos += padding
 				}
-			} else if config.axis == ConcatAxisY {
+			} else if config.axis == AxisY {
 				// pad xPos
-				diff := float64(c.maxWidth - width)
+				diff := float64(maxWidth - width)
 				if diff > 0 {
 					padding := int(math.Floor(diff / 2))
 					xPos += padding
@@ -114,12 +72,12 @@ func (c *Concater) Concat(opts ...opt) (*image.RGBA, error) {
 		y := yPos + height
 
 		r := image.Rect(xPos, yPos, x, y)
-		draw.Draw(img, r, i, image.Point{0, 0}, draw.Over)
+		draw.Draw(img, r, i, image.Point{0, 0}, config.op)
 
-		if config.axis == ConcatAxisX {
+		if config.axis == AxisX {
 			xPos += i.Bounds().Dx()
 			yPos = 0
-		} else if config.axis == ConcatAxisY {
+		} else if config.axis == AxisY {
 			yPos += i.Bounds().Dy()
 			xPos = 0
 		}

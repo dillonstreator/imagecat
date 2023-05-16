@@ -3,6 +3,7 @@ package imagecat
 import (
 	"bytes"
 	_ "embed"
+	"image"
 	"image/jpeg"
 	"testing"
 )
@@ -28,10 +29,7 @@ var resultXCenterBytes []byte
 //go:embed resources/result.y.center.jpeg
 var resultYCenterBytes []byte
 
-func TestConcater_Concat(t *testing.T) {
-
-	c := &Concater{}
-
+func TestConcat(t *testing.T) {
 	img1, err := jpeg.Decode(bytes.NewReader(img1Bytes))
 	if err != nil {
 		t.Error(err)
@@ -45,64 +43,62 @@ func TestConcater_Concat(t *testing.T) {
 		t.Error(err)
 	}
 
-	c.Add(img1, img2, img3)
-	imgX, err := c.Concat()
-	if err != nil {
-		t.Error(err)
+	type args struct {
+		images  []image.Image
+		options []OptionFn
 	}
-
-	var b bytes.Buffer
-	err = jpeg.Encode(&b, imgX, &jpeg.Options{Quality: 100})
-	if err != nil {
-		t.Error(err)
+	tests := []struct {
+		name    string
+		args    args
+		want    []byte
+		wantErr bool
+	}{
+		{
+			name:    "x-axis",
+			args:    args{images: []image.Image{img1, img2, img3}},
+			want:    resultXBytes,
+			wantErr: false,
+		},
+		{
+			name:    "y-axis",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(AxisY)}},
+			want:    resultYBytes,
+			wantErr: false,
+		},
+		{
+			name:    "x-axis center",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAlignment(AlignmentCenter)}},
+			want:    resultXCenterBytes,
+			wantErr: false,
+		},
+		{
+			name:    "y-axis center",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(AxisY), WithAlignment(AlignmentCenter)}},
+			want:    resultYCenterBytes,
+			wantErr: false,
+		},
 	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := Concat(tt.args.images, tt.args.options...)
+			if err != nil {
+				if tt.wantErr {
+					return
+				}
 
-	if !bytes.Equal(resultXBytes, b.Bytes()) {
-		t.Error("x axis bytes not equal")
-	}
+				t.Errorf("Concat() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
 
-	imgY, err := c.Concat(WithAxis(ConcatAxisY))
-	if err != nil {
-		t.Error(err)
-	}
+			var b bytes.Buffer
+			err = jpeg.Encode(&b, got, &jpeg.Options{Quality: 100})
+			if err != nil {
+				t.Error(err)
+			}
 
-	b = bytes.Buffer{}
-	err = jpeg.Encode(&b, imgY, &jpeg.Options{Quality: 100})
-	if err != nil {
-		t.Error(err)
-	}
-
-	if !bytes.Equal(resultYBytes, b.Bytes()) {
-		t.Error("y axis bytes not equal")
-	}
-
-	imgYCenter, err := c.Concat(WithAxis(ConcatAxisY), WithAlignment(ConcatAlignmentCenter))
-	if err != nil {
-		t.Error(err)
-	}
-
-	b = bytes.Buffer{}
-	err = jpeg.Encode(&b, imgYCenter, &jpeg.Options{Quality: 100})
-	if err != nil {
-		t.Error(err)
-	}
-
-	if !bytes.Equal(resultYCenterBytes, b.Bytes()) {
-		t.Error("y axis centered bytes not equal")
-	}
-
-	imgXCenter, err := c.Concat(WithAxis(ConcatAxisX), WithAlignment(ConcatAlignmentCenter))
-	if err != nil {
-		t.Error(err)
-	}
-
-	b = bytes.Buffer{}
-	err = jpeg.Encode(&b, imgXCenter, &jpeg.Options{Quality: 100})
-	if err != nil {
-		t.Error(err)
-	}
-
-	if !bytes.Equal(resultXCenterBytes, b.Bytes()) {
-		t.Error("x axis centered bytes not equal")
+			if !bytes.Equal(b.Bytes(), tt.want) {
+				t.Errorf("Concat() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

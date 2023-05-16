@@ -5,7 +5,7 @@ Concatenate any number of images into a single image on x or y axis with optiona
 ## Installation
 
 ```sh
-go get github.com/DillonStreator/imagecat
+go get github.com/dillonstreator/imagecat/v2
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ go get github.com/DillonStreator/imagecat
 import (
     "image"
 
-    "github.com/DillonStreator/imagecat"
+    "github.com/dillonstreator/imagecat/v2"
 )
 
 func main () {
@@ -23,18 +23,12 @@ func main () {
         // ... some images
     }
 
-    concater := imagecat.NewConcater(images...)
-
-    img, err := concater.Concat(imagecat.WithAxis(imagecat.ConcatAxisY), imagecat.WithAlignment(imagecat.ConcatAlignmentCenter))
+    img, err := imagecat.Concat(images, imagecat.WithAxis(imagecat.AxisY), imagecat.WithAlignment(imagecat.AlignmentCenter))
     if err != nil { /* handle error */ }
-
-    // ... do something with image
 
     // ... concat same images on different axis and different alignment
-    img, err = concater.Concat(imagecat.WithAxis(imagecat.ConcatAxisX), imagecat.WithAlignment(imagecat.ConcatAlignmentNone))
+    img, err = imagecat.Concat(imagecat.WithAxis(imagecat.AxisX), imagecat.WithAlignment(imagecat.AlignmentNone))
     if err != nil { /* handle error */ }
-
-    // ... do something with image
 
 }
 ```

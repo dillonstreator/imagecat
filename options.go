@@ -1,33 +1,56 @@
 package imagecat
 
-type ConcatAxis int
-type ConcatAlignment int
+import "image/draw"
+
+type Axis int
+type Alignment int
 
 const (
 	// Specifies the axis with which the images will be concatenated on
-	ConcatAxisX ConcatAxis = iota
-	ConcatAxisY
+	AxisX Axis = iota
+	AxisY
 
 	// Specifies the alignment that will be applied to the images
-	ConcatAlignmentNone ConcatAlignment = iota
-	ConcatAlignmentCenter
+	AlignmentNone Alignment = iota
+	AlignmentCenter
 )
 
-type concatOptions struct {
-	axis      ConcatAxis
-	alignment ConcatAlignment
+type config struct {
+	axis      Axis
+	alignment Alignment
+	op        draw.Op
 }
 
-type opt func(*concatOptions)
+func newConfig(options ...OptionFn) *config {
+	cfg := &config{
+		axis:      AxisX,
+		alignment: AlignmentNone,
+		op:        draw.Over,
+	}
 
-func WithAxis(axis ConcatAxis) opt {
-	return func(cc *concatOptions) {
+	for _, option := range options {
+		option(cfg)
+	}
+
+	return cfg
+}
+
+type OptionFn func(*config)
+
+func WithAxis(axis Axis) OptionFn {
+	return func(cc *config) {
 		cc.axis = axis
 	}
 }
 
-func WithAlignment(alignment ConcatAlignment) opt {
-	return func(cc *concatOptions) {
+func WithAlignment(alignment Alignment) OptionFn {
+	return func(cc *config) {
 		cc.alignment = alignment
+	}
+}
+
+func WithDrawOp(op draw.Op) OptionFn {
+	return func(cc *config) {
+		cc.op = op
 	}
 }

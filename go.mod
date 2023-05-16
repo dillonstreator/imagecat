@@ -1,3 +1,3 @@
-module github.com/DillonStreator/imagecat
+module github.com/dillonstreator/imagecat/v2
 
-go 1.18
+go 1.20
