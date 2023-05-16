@@ -77,12 +77,22 @@ func TestConcat(t *testing.T) {
 			want:    resultYCenterBytes,
 			wantErr: false,
 		},
+		{
+			name:    "invalid axis",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(3), WithAlignment(AlignmentCenter)}},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := Concat(tt.args.images, tt.args.options...)
 			if err != nil {
 				if tt.wantErr {
+					if got != nil {
+						t.Error("Concat() expected nil result with non-nil err")
+					}
+
 					return
 				}
 
