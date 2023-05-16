@@ -1,6 +1,15 @@
-# imagecat
+<h1 align="center">imagecat</h1>
 
-Concatenate images into a single image on x or y axis with optional alignment centering
+<p align="center">Concatenate images into a single image on x or y axis with optional alignment centering</p>
+
+<p align="center">
+  <a aria-label="GoDoc" href="https://pkg.go.dev/github.com/dillonstreator/imagecat/v2">
+    <img alt="GoDoc badge" src="https://godoc.org/github.com/dillonstreator/go-badge?status.svg">
+  </a>
+  <a aria-label="GoDoc" href="https://codecov.io/gh/dillonstreator/imagecat">
+    <img alt="GoDoc badge" src="https://codecov.io/gh/dillonstreator/imagecat/branch/main/graph/badge.svg?token=ML10BJJUZ6">
+  </a>
+</p>
 
 ## Installation
 
