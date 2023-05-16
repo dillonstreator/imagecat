@@ -33,13 +33,11 @@ func Concat(images []image.Image, options ...OptionFn) (*image.RGBA, error) {
 
 	var img *image.RGBA
 
-	fmt.Println(config.axis)
 	if config.axis == AxisX {
 		img = image.NewRGBA(image.Rect(0, 0, totalWidth, maxHeight))
 	} else if config.axis == AxisY {
 		img = image.NewRGBA(image.Rect(0, 0, maxWidth, totalHeight))
 	} else {
-		fmt.Println("here")
 		return nil, fmt.Errorf("unknown axis %v", config.axis)
 	}
 
