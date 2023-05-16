@@ -12,6 +12,9 @@
   <a aria-label="GoReport" href="https://goreportcard.com/report/github.com/dillonstreator/imagecat/v2">
     <img alt="GoReport badge" src="https://img.shields.io/badge/go%20report-A+-brightgreen.svg?style=flat">
   </a>
+  <a aria-label="GoReport" href="https://opensource.org/licenses/MIT">
+    <img alt="GoReport badge" src="https://img.shields.io/badge/License-MIT-yellow.svg">
+  </a>
 </p>
 
 ## Installation
