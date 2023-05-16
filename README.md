@@ -33,11 +33,11 @@ func main () {
     }
 
     // concat on x-axis with no alignment
-    img, err = imagecat.Concat(images)
+    img, err := imagecat.Concat(images)
     if err != nil { /* handle error */ }
 
     // concat on y-axis with center alignment
-    img, err := imagecat.Concat(images, imagecat.WithAxis(imagecat.AxisY), imagecat.WithAlignment(imagecat.AlignmentCenter))
+    img, err = imagecat.Concat(images, imagecat.WithAxis(imagecat.AxisY), imagecat.WithAlignment(imagecat.AlignmentCenter))
     if err != nil { /* handle error */ }
 
 }
