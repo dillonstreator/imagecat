@@ -4,6 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"image"
+	"image/draw"
 	"image/jpeg"
 	"testing"
 )
@@ -28,6 +29,9 @@ var resultXCenterBytes []byte
 
 //go:embed resources/result.y.center.jpeg
 var resultYCenterBytes []byte
+
+//go:embed resources/result.x.src.jpeg
+var resultXSrcBytes []byte
 
 func TestConcat(t *testing.T) {
 	img1, err := jpeg.Decode(bytes.NewReader(img1Bytes))
@@ -82,6 +86,12 @@ func TestConcat(t *testing.T) {
 			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(3), WithAlignment(AlignmentCenter)}},
 			want:    nil,
 			wantErr: true,
+		},
+		{
+			name:    "draw op src",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithDrawOp(draw.Src)}},
+			want:    resultXSrcBytes,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
