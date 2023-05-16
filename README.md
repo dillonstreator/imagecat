@@ -9,6 +9,9 @@
   <a aria-label="GoDoc" href="https://codecov.io/gh/dillonstreator/imagecat">
     <img alt="GoDoc badge" src="https://codecov.io/gh/dillonstreator/imagecat/branch/main/graph/badge.svg?token=ML10BJJUZ6">
   </a>
+  <a aria-label="GoReport" href="https://goreportcard.com/report/github.com/dillonstreator/imagecat/v2">
+    <img alt="GoReport badge" src="https://img.shields.io/badge/go%20report-A+-brightgreen.svg?style=flat">
+  </a>
 </p>
 
 ## Installation
