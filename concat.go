@@ -48,28 +48,15 @@ func Concat(images []image.Image, options ...OptionFn) (*image.RGBA, error) {
 		height := i.Bounds().Dy()
 		width := i.Bounds().Dx()
 
-		if config.alignment == AlignmentCenter {
-			if config.axis == AxisX {
-				// pad yPos
-				diff := float64(maxHeight - height)
-				if diff > 0 {
-					padding := int(math.Floor(diff / 2))
-					yPos += padding
-				}
-			} else if config.axis == AxisY {
-				// pad xPos
-				diff := float64(maxWidth - width)
-				if diff > 0 {
-					padding := int(math.Floor(diff / 2))
-					xPos += padding
-				}
-			}
-		} else if config.alignment == AlignmentEnd {
+		if config.alignment == AlignmentCenter || config.alignment == AlignmentEnd {
 			if config.axis == AxisX {
 				// pad yPos
 				diff := float64(maxHeight - height)
 				if diff > 0 {
 					padding := int(math.Floor(diff))
+					if config.alignment == AlignmentCenter {
+						padding /= 2
+					}
 					yPos += padding
 				}
 			} else if config.axis == AxisY {
@@ -77,6 +64,9 @@ func Concat(images []image.Image, options ...OptionFn) (*image.RGBA, error) {
 				diff := float64(maxWidth - width)
 				if diff > 0 {
 					padding := int(math.Floor(diff))
+					if config.alignment == AlignmentCenter {
+						padding /= 2
+					}
 					xPos += padding
 				}
 			}
