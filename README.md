@@ -3,13 +3,13 @@
 <p align="center">Concatenate images into a single image on x or y axis with optional alignment centering</p>
 
 <p align="center">
-  <a aria-label="GoDoc" href="https://pkg.go.dev/github.com/dillonstreator/imagecat/v2">
+  <a aria-label="GoDoc" href="https://pkg.go.dev/github.com/dillonstreator/imagecat/v3">
     <img alt="GoDoc badge" src="https://godoc.org/github.com/dillonstreator/go-badge?status.svg">
   </a>
   <a aria-label="GoDoc" href="https://codecov.io/gh/dillonstreator/imagecat">
     <img alt="GoDoc badge" src="https://codecov.io/gh/dillonstreator/imagecat/branch/main/graph/badge.svg?token=ML10BJJUZ6">
   </a>
-  <a aria-label="GoReport" href="https://goreportcard.com/report/github.com/dillonstreator/imagecat/v2">
+  <a aria-label="GoReport" href="https://goreportcard.com/report/github.com/dillonstreator/imagecat/v3">
     <img alt="GoReport badge" src="https://img.shields.io/badge/go%20report-A+-brightgreen.svg?style=flat">
   </a>
   <a aria-label="GoReport" href="https://opensource.org/licenses/MIT">
@@ -20,7 +20,7 @@
 ## Installation
 
 ```sh
-go get github.com/dillonstreator/imagecat/v2
+go get github.com/dillonstreator/imagecat/v3
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ go get github.com/dillonstreator/imagecat/v2
 import (
     "image"
 
-    "github.com/dillonstreator/imagecat/v2"
+    "github.com/dillonstreator/imagecat/v3"
 )
 
 func main () {
