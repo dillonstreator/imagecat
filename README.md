@@ -61,7 +61,7 @@ func main () {
     <table>
       <tr>
         <th></th>
-        <th>Left Alignment</th>
+        <th>Start Alignment</th>
         <th>Center Alignment</th>
         <th>End Alignment</th>
       </tr>
