@@ -11,8 +11,9 @@ const (
 	AxisY
 
 	// Specifies the alignment that will be applied to the images
-	AlignmentNone Alignment = iota
+	AlignmentLeft Alignment = iota
 	AlignmentCenter
+	AlignmentEnd
 )
 
 type config struct {
@@ -24,7 +25,7 @@ type config struct {
 func newConfig(options ...OptionFn) *config {
 	cfg := &config{
 		axis:      AxisX,
-		alignment: AlignmentNone,
+		alignment: AlignmentLeft,
 		op:        draw.Over,
 	}
 
@@ -38,19 +39,19 @@ func newConfig(options ...OptionFn) *config {
 type OptionFn func(*config)
 
 func WithAxis(axis Axis) OptionFn {
-	return func(cc *config) {
-		cc.axis = axis
+	return func(c *config) {
+		c.axis = axis
 	}
 }
 
 func WithAlignment(alignment Alignment) OptionFn {
-	return func(cc *config) {
-		cc.alignment = alignment
+	return func(c *config) {
+		c.alignment = alignment
 	}
 }
 
 func WithDrawOp(op draw.Op) OptionFn {
-	return func(cc *config) {
-		cc.op = op
+	return func(c *config) {
+		c.op = op
 	}
 }

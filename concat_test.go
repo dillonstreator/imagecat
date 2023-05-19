@@ -30,6 +30,12 @@ var resultXCenterBytes []byte
 //go:embed resources/result.y.center.jpeg
 var resultYCenterBytes []byte
 
+//go:embed resources/result.x.end.jpeg
+var resultXEndBytes []byte
+
+//go:embed resources/result.y.end.jpeg
+var resultYEndBytes []byte
+
 //go:embed resources/result.x.src.jpeg
 var resultXSrcBytes []byte
 
@@ -79,6 +85,18 @@ func TestConcat(t *testing.T) {
 			name:    "y-axis center",
 			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(AxisY), WithAlignment(AlignmentCenter)}},
 			want:    resultYCenterBytes,
+			wantErr: false,
+		},
+		{
+			name:    "x-axis end",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAlignment(AlignmentEnd)}},
+			want:    resultXEndBytes,
+			wantErr: false,
+		},
+		{
+			name:    "y-axis end",
+			args:    args{images: []image.Image{img1, img2, img3}, options: []OptionFn{WithAxis(AxisY), WithAlignment(AlignmentEnd)}},
+			want:    resultYEndBytes,
 			wantErr: false,
 		},
 		{

@@ -64,6 +64,22 @@ func Concat(images []image.Image, options ...OptionFn) (*image.RGBA, error) {
 					xPos += padding
 				}
 			}
+		} else if config.alignment == AlignmentEnd {
+			if config.axis == AxisX {
+				// pad yPos
+				diff := float64(maxHeight - height)
+				if diff > 0 {
+					padding := int(math.Floor(diff))
+					yPos += padding
+				}
+			} else if config.axis == AxisY {
+				// pad xPos
+				diff := float64(maxWidth - width)
+				if diff > 0 {
+					padding := int(math.Floor(diff))
+					xPos += padding
+				}
+			}
 		}
 
 		x := xPos + width
