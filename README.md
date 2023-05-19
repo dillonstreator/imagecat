@@ -53,17 +53,31 @@ func main () {
 
 <div>
     <h3>Input images</h3>
-    <img src="./resources/img1.jpeg" />
-    <img src="./resources/img2.jpeg" />
-    <img src="./resources/img3.jpeg" />
-    <h3>concat on x-axis with no alignment</h3>
-    <img src="./resources/result.x.jpeg" />
-    <h3>concat on x-axis with center alignment</h3>
-    <img src="./resources/result.x.center.jpeg" />
-    <h3>concat on y-axis with no alignment</h3>
-    <img src="./resources/result.y.jpeg" />
-    <h3>concat on y-axis with center alignment</h3>
-    <img src="./resources/result.y.center.jpeg" />
+    <p float="left">
+      <img src="./resources/img1.jpeg" width="100" />
+      <img src="./resources/img2.jpeg" width="100" />
+      <img src="./resources/img3.jpeg" width="100" />
+    </p>
+    <table>
+      <tr>
+        <th></th>
+        <th>Left Alignment</th>
+        <th>Center Alignment</th>
+        <th>End Alignment</th>
+      </tr>
+      <tr>
+        <th>X-axis</th>
+        <td><img src="./resources/result.x.jpeg" width="150" /></td>
+        <td><img src="./resources/result.x.center.jpeg" width="150" /></td>
+        <td><img src="./resources/result.x.end.jpeg" width="150" /></td>
+      </tr>
+      <tr>
+        <th>Y-axis</th>
+        <td align="center"><img src="./resources/result.y.jpeg" height="150" /></td>
+        <td align="center"><img src="./resources/result.y.center.jpeg" height="150" /></td>
+        <td align="center"><img src="./resources/result.y.end.jpeg" height="150" /></td>
+      </tr>
+    </table>
 </div>
 
 
