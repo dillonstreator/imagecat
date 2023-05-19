@@ -60,10 +60,14 @@ func main () {
     <img src="./resources/result.x.jpeg" />
     <h3>concat on x-axis with center alignment</h3>
     <img src="./resources/result.x.center.jpeg" />
+    <h3>concat on x-axis with end alignment</h3>
+    <img src="./resources/result.x.end.jpeg" />
     <h3>concat on y-axis with no alignment</h3>
     <img src="./resources/result.y.jpeg" />
     <h3>concat on y-axis with center alignment</h3>
     <img src="./resources/result.y.center.jpeg" />
+    <h3>concat on y-axis with end alignment</h3>
+    <img src="./resources/result.y.end.jpeg" />
 </div>
 
 

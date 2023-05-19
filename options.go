@@ -11,7 +11,7 @@ const (
 	AxisY
 
 	// Specifies the alignment that will be applied to the images
-	AlignmentLeft Alignment = iota
+	AlignmentStart Alignment = iota
 	AlignmentCenter
 	AlignmentEnd
 )
@@ -25,7 +25,7 @@ type config struct {
 func newConfig(options ...OptionFn) *config {
 	cfg := &config{
 		axis:      AxisX,
-		alignment: AlignmentLeft,
+		alignment: AlignmentStart,
 		op:        draw.Over,
 	}
 
